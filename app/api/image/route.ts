@@ -3,7 +3,13 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { HistoryItem, HistoryPart } from "@/lib/types";
 
 // Initialize the Google Gen AI client with your API key
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
+//const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY_ALT 
+? Math.random() > 0.5 
+  ? process.env.GEMINI_API_KEY!
+  : process.env.GEMINI_API_KEY_ALT
+: process.env.GEMINI_API_KEY!;
+
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
 // Define the model ID for Gemini 2.0 Flash experimental

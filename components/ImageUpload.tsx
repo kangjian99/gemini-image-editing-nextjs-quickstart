@@ -10,6 +10,10 @@ interface ImageUploadProps {
   currentImage: string | null;
 }
 
+const MAX_UPLOAD_SIZE = process.env.NEXT_PUBLIC_MAX_UPLOAD_SIZE 
+  ? parseInt(process.env.NEXT_PUBLIC_MAX_UPLOAD_SIZE, 10) 
+  : 5; // 默认MB
+
 export function formatFileSize(bytes: number): string {
   if (bytes === 0) return "0 Bytes";
   const k = 1024;
@@ -60,7 +64,7 @@ export function ImageUpload({ onImageSelect, currentImage }: ImageUploadProps) {
       "image/png": [".png"],
       "image/jpeg": [".jpg", ".jpeg"],
     },
-    maxSize: 10 * 1024 * 1024, // 10MB
+    maxSize: MAX_UPLOAD_SIZE * 1024 * 1024,
     multiple: false,
   });
 
@@ -86,10 +90,10 @@ export function ImageUpload({ onImageSelect, currentImage }: ImageUploadProps) {
             <UploadIcon className="w-8 h-8 text-primary mr-3 flex-shrink-0" />
             <div className="">
               <p className="text-sm font-medium text-foreground">
-                Drop your image here or click to browse
+              拖放你的图片到这里，或点击选择图片上传
               </p>
               <p className="text-xs text-muted-foreground">
-                Maximum file size: 10MB
+                Maximum file size: 5MB
               </p>
             </div>
           </div>
