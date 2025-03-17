@@ -4,7 +4,7 @@ import { useCallback, useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { Button } from "./ui/button";
 import { Upload as UploadIcon, Image as ImageIcon, X } from "lucide-react";
-//import Image from "next/image";
+import Image from "next/image";
 interface ImageUploadProps {
   onImageSelect: (imageData: string) => void;
   currentImage: string | null;
@@ -122,11 +122,14 @@ export function ImageUpload({ onImageSelect, currentImage }: ImageUploadProps) {
               <span className="sr-only">Remove image</span>
             </Button>
           </div>
-          <div className="w-full overflow-hidden rounded-md">
-            <img
+          <div className="w-full overflow-hidden rounded-md relative aspect-video">
+            <Image
               src={currentImage}
               alt="Selected"
-              className="w-full h-auto object-contain"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-contain"
+              priority
             />
           </div>
         </div>

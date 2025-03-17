@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
 import { HistoryItem, HistoryPart } from "@/lib/types";
 
 // Initialize the Google Gen AI client with your API key
@@ -24,6 +24,25 @@ interface FormattedHistoryItem {
   }>;
 }
 
+const safetySettings = [
+  {
+    category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+    threshold: HarmBlockThreshold.BLOCK_NONE,
+  },
+  {
+    category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+    threshold: HarmBlockThreshold.BLOCK_NONE,
+  },
+  {
+    category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+    threshold: HarmBlockThreshold.BLOCK_NONE,
+  },
+  {
+    category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+    threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
+  },
+];
+
 export async function POST(req: NextRequest) {
   try {
     // Parse JSON request instead of FormData
@@ -47,6 +66,7 @@ export async function POST(req: NextRequest) {
         // @ts-expect-error - Gemini API JS is missing this type
         responseModalities: ["Text", "Image"],
       },
+      safetySettings: safetySettings,
     });
 
     let result;

@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Download, RotateCcw, MessageCircle } from "lucide-react";
 import { useState } from "react";
+import Image from "next/image";
 import { HistoryItem, HistoryPart } from "@/lib/types";
 
 interface ImageResultDisplayProps {
@@ -57,11 +58,15 @@ export function ImageResultDisplay({
       </div>
 
       <div className="rounded-lg overflow-hidden bg-muted p-2">
-        <img
-          src={imageUrl}
-          alt="Generated"
-          className="max-w-[640px] h-auto mx-auto"
-        />
+      <Image
+        src={imageUrl}
+        alt="Generated"
+        width={0}
+        height={0}
+        sizes="100vw"
+        className="mx-auto block"
+        style={{ width: '70%', height: 'auto' }}
+      />
       </div>
 
       {description && (
@@ -90,10 +95,13 @@ export function ImageResultDisplay({
                       {part.text && <p className="text-sm">{part.text}</p>}
                       {part.image && (
                         <div className="mt-2 overflow-hidden rounded-md">
-                          <img
+                          <Image
                             src={part.image}
                             alt={`${item.role} image`}
+                            width={256}
+                            height={256}
                             className="max-w-64 h-auto object-contain"
+                            priority
                           />
                         </div>
                       )}
